@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Học sinh Lớp 10</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        /* Table Style */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Badge Styles */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        /* Xếp loại Badges */
+        .xl-tot { background-color: #d4edda; color: #155724; }
+        .xl-kha { background-color: #cce5ff; color: #004085; }
+        .xl-dat { background-color: #fff3cd; color: #856404; }
+        .xl-kodat { background-color: #f8d7da; color: #721c24; }
+
+        /* Danh hiệu Badges */
+        .dh-xuatsac { background-color: #e2e0ff; color: #4a00e0; border: 1px solid #4a00e0; }
+        .dh-gioi { background-color: #d1ecf1; color: #0c5460; }
+        .dh-none { color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>QUẢN LÝ ĐIỂM HỌC SINH LỚP 10</h1>
+
+    <!-- BẢNG DANH SÁCH -->
+    <div class="card">
+        <h3>Danh Sách Học Sinh (20 học sinh)</h3>
+        <div class="table-responsive" style="margin-top: 15px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>MSHS</th>
+                        <th>Họ và Tên</th>
+                        <th>M1</th>
+                        <th>M2</th>
+                        <th>M3</th>
+                        <th>M4</th>
+                        <th>M5</th>
+                        <th>M6</th>
+                        <th>M7</th>
+                        <th>M8</th>
+                        <th>ĐTB</th>
+                        <th>Xếp Loại</th>
+                        <th>Danh Hiệu</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                    <!-- Dữ liệu sẽ xuất hiện ở đây -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. DANH SÁCH DỮ LIỆU MẪU ĐƯỢC BỔ SUNG LÊN 20 HỌC SINH
+    const initialStudents = [
+        { mshs: "HS01", tenhs: "Nguyễn Văn Xuất Sắc", scores: [9.5, 9.0, 9.2, 8.8, 9.8, 9.0, 8.5, 9.1] },
+        { mshs: "HS02", tenhs: "Trần Thị Học Giỏi", scores: [8.5, 8.2, 8.0, 8.8, 7.8, 8.1, 7.5, 8.0] },
+        { mshs: "HS03", tenhs: "Lê Hoàng Tốt", scores: [8.0, 8.5, 8.0, 7.0, 9.0, 8.0, 8.5, 7.0] },
+        { mshs: "HS04", tenhs: "Phạm Minh Khá", scores: [7.5, 7.0, 7.2, 7.8, 6.8, 7.5, 7.0, 7.2] },
+        { mshs: "HS05", tenhs: "Đỗ Văn Đạt", scores: [5.5, 6.0, 5.0, 6.5, 5.8, 5.2, 6.0, 5.0] },
+        { mshs: "HS06", tenhs: "Vũ Thị Chưa Đạt", scores: [4.5, 4.0, 5.0, 3.5, 4.8, 4.2, 5.0, 4.0] },
+        { mshs: "HS07", tenhs: "Bùi Anh Tuấn", scores: [9.8, 9.5, 9.2, 9.0, 9.6, 9.4, 9.0, 8.8] },
+        { mshs: "HS08", tenhs: "Đặng Thị Mai", scores: [8.8, 8.5, 8.2, 8.0, 8.5, 8.0, 7.8, 8.2] },
+        { mshs: "HS09", tenhs: "Nông Văn Cường", scores: [7.2, 7.8, 7.0, 7.5, 7.1, 7.4, 6.9, 7.6] },
+        { mshs: "HS10", tenhs: "Dương Hoài An", scores: [6.5, 6.8, 6.0, 5.8, 6.2, 6.4, 6.1, 5.9] },
+        { mshs: "HS11", tenhs: "Ngô Quốc Bảo", scores: [9.0, 9.2, 9.5, 9.1, 9.0, 9.3, 8.9, 9.0] },
+        { mshs: "HS12", tenhs: "Lý Khánh Linh", scores: [8.2, 8.0, 8.4, 8.1, 7.9, 8.0, 8.3, 8.5] },
+        { mshs: "HS13", tenhs: "Đinh Văn Hùng", scores: [4.0, 3.8, 4.5, 5.0, 4.2, 3.5, 4.8, 4.1] },
+        { mshs: "HS14", tenhs: "Trịnh Mỹ Duyên", scores: [9.2, 9.0, 9.1, 8.9, 9.4, 9.0, 8.7, 9.2] },
+        { mshs: "HS15", tenhs: "Hoàng Gia Bách", scores: [7.8, 7.5, 7.9, 7.1, 7.4, 7.0, 7.3, 7.6] },
+        { mshs: "HS16", tenhs: "Võ Thanh Trúc", scores: [5.0, 5.2, 5.5, 5.8, 5.1, 5.4, 5.0, 5.3] },
+        { mshs: "HS17", tenhs: "Mai Trung Kiên", scores: [8.5, 8.8, 8.2, 8.4, 8.0, 8.1, 8.3, 8.6] },
+        { mshs: "HS18", tenhs: "Phan Như Quỳnh", scores: [6.2, 6.0, 6.5, 5.9, 6.1, 6.3, 5.8, 6.0] },
+        { mshs: "HS19", tenhs: "Đào Đức Trí", scores: [9.6, 9.4, 9.8, 9.2, 9.5, 9.1, 8.9, 9.3] },
+        { mshs: "HS20", tenhs: "Cao Thị Yến", scores: [3.5, 4.2, 3.8, 4.0, 4.5, 3.9, 4.1, 4.0] }
+    ];
+
+    // 2. HÀM TÍNH TOÁN & THÊM DÒNG VÀO BẢNG
+    function renderStudentRow(student) {
+        const { mshs, tenhs, scores } = student;
+
+        // Tính ĐTB
+        const sum = scores.reduce((acc, curr) => acc + curr, 0);
+        const dtb = parseFloat((sum / 8).toFixed(2));
+
+        // Tính Xếp loại
+        let xepLoai = "";
+        let xlClass = "";
+        if (dtb >= 8.0) {
+            xepLoai = "Tốt";
+            xlClass = "xl-tot";
+        } else if (dtb >= 7.0) {
+            xepLoai = "Khá";
+            xlClass = "xl-kha";
+        } else if (dtb >= 5.0) {
+            xepLoai = "Đạt";
+            xlClass = "xl-dat";
+        } else {
+            xepLoai = "Không đạt";
+            xlClass = "xl-kodat";
+        }
+
+        // Tính Danh hiệu
+        const monTren9 = scores.filter(s => s >= 9.0).length;
+        const monTren8 = scores.filter(s => s >= 8.0).length;
+        const monDuoi8 = scores.filter(s => s < 8.0).length;
+        const monDuoi75 = scores.filter(s => s < 7.5).length;
+        const monDuoi65 = scores.filter(s => s < 6.5).length;
+
+        let danhHieu = "-";
+        let dhClass = "dh-none";
+
+        if (monTren9 >= 6 && monDuoi8 === 0) {
+            danhHieu = "Xuất sắc";
+            dhClass = "dh-xuatsac";
+        } else if (monTren8 >= 6 && monDuoi75 === 0 && monDuoi65 === 0) {
+            danhHieu = "Giỏi";
+            dhClass = "dh-gioi";
+        }
+
+        // Tạo thẻ tr và render dữ liệu
+        const tbody = document.getElementById('studentTableBody');
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td><b>${mshs}</b></td>
+            <td style="text-align: left;">${tenhs}</td>
+            ${scores.map(s => `<td>${s}</td>`).join('')}
+            <td><b>${dtb}</b></td>
+            <td><span class="badge ${xlClass}">${xepLoai}</span></td>
+            <td><span class="badge ${dhClass}">${danhHieu}</span></td>
+        `;
+
+
+        tbody.appendChild(row);
+    }
+
+    // 3. XỬ LÝ SỰ KIỆN TỰ ĐỘNG NẠP DỮ LIỆU BAN ĐẦU
+   window.onload = function() { 
+    initialStudents.forEach(student => renderStudentRow(student)); 
+
+   };
+</script>
+
+</body>
+</html>

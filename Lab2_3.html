@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Cửu Chương</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            width: 160px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .card p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bảng Cửu Chương (2 đến 9)</h1>
+    
+    <div class="container" id="cuuchuong-container"></div>
+
+    <script>
+        const container = document.getElementById('cuuchuong-container');
+
+   
+        for (let j = 2; j <= 9; j++) {
+            // 1. In ra Console
+            console.log(`--- BẢNG CỬU CHƯƠNG ${j} ---`);
+
+       
+            let cardHTML = `<div class="card"><h3>Bảng ${j}</h3>`;
+            
+            // Vòng lặp nhân từ 1 đến 10
+            for (let i = 1; i <= 10; i++) {
+                // In ra console
+                console.log(`${j} x ${i} = ${j * i}`);
+                cardHTML += `<p>${j} x ${i} = ${j * i}</p>`;
+            }
+            console.log(""); // Dòng trống trong console
+            cardHTML += `</div>`;
+            container.innerHTML += cardHTML;
+        }
+    </script>
+
+</body>
+</html>

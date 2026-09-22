@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPT Polytechnic - Hồ Sơ Sinh Viên</title>
+    <style>
+        /* ==================================================
+           1. RESET & BASE STYLES
+        ================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        :root {
+            --orange: #f26f21;
+            --orange-hover: #d85b12;
+            --blue: #003b73;
+            --blue-dark: #002244;
+            --gray-light: #f8f9fa;
+            --text-dark: #2c3e50;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Input Radio & Checkbox ẩn */
+        input[type="radio"],
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        /* ==================================================
+           2. HEADER & NAVIGATION
+        ================================================== */
+        .header {
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-box {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--orange), #ff9a52);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(242,111,33,0.3);
+        }
+
+        .logo-text strong {
+            display: block;
+            color: var(--blue);
+            font-size: 18px;
+        }
+
+        .logo-text span {
+            color: #7f8c8d;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu label {
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s ease;
+        }
+
+        .menu label:hover {
+            background: #f0f4f8;
+            color: var(--orange);
+        }
+
+        #page-home:checked ~ .header .menu label[for="page-home"],
+        #page-major:checked ~ .header .menu label[for="page-major"],
+        #page-process:checked ~ .header .menu label[for="page-process"] {
+            background: var(--blue);
+            color: white;
+        }
+
+        /* ==================================================
+           3. HERO / BANNER SECTION
+        ================================================== */
+        .hero {
+            position: relative;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            background: linear-gradient(135deg, rgba(0, 38, 77, 0.9), rgba(242, 111, 33, 0.75)),
+                        url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=85") center/cover no-repeat;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: #ffb477;
+        }
+
+        .hero p {
+            font-size: 17px;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        /* Nút Kiểm Tra Thông Tin ở Banner */
+        .toggle-btn-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--orange), #ff8838);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(242, 111, 33, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(242, 111, 33, 0.6);
+        }
+
+        /* ==================================================
+           4. NHÓM 3 NÚT BẤM (BUTTON GROUP) - ẨN/HIỆN
+        ================================================== */
+        .info-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Khi bấm 'Kiểm tra thông tin' -> Hiện nhóm nút & nội dung */
+        #check-info-toggle:checked ~ .info-wrapper {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 30px;
+        }
+
+        #check-info-toggle:checked ~ .hero .toggle-btn-main {
+            background: var(--blue);
+            box-shadow: 0 8px 25px rgba(0, 59, 115, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto 35px auto;
+            padding: 10px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: #e2e8f0;
+            color: var(--blue);
+        }
+
+        /* Trạng thái Active cho 3 nút */
+        #tab-1:checked ~ .info-wrapper .button-group label[for="tab-1"],
+        #tab-2:checked ~ .info-wrapper .button-group label[for="tab-2"],
+        #tab-3:checked ~ .info-wrapper .button-group label[for="tab-3"] {
+            background: linear-gradient(135deg, var(--orange), #ff8838);
+            color: white;
+            box-shadow: 0 6px 18px rgba(242, 111, 33, 0.35);
+        }
+
+        /* ==================================================
+           5. MAIN CONTENT CONTAINERS & TABS
+        ================================================== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 60px 20px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        #tab-1:checked ~ .info-wrapper .container #content-1,
+        #tab-2:checked ~ .info-wrapper .container #content-2,
+        #tab-3:checked ~ .info-wrapper .container #content-3 {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            border: 1px solid #eef2f6;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .title-line {
+            width: 6px;
+            height: 38px;
+            background: linear-gradient(to bottom, var(--orange), #ff9a52);
+            border-radius: 10px;
+        }
+
+        .section-title h2 {
+            font-size: 26px;
+            color: var(--blue);
+        }
+
+        .section-title p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* ==================================================
+           6. CONTENT - TÔI LÀ AI
+        ================================================== */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .profile-img-box {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .profile-img-box img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-badge {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0, 38, 77, 0.85);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .profile-details h3 {
+            font-size: 28px;
+            color: var(--orange);
+            margin-bottom: 15px;
+        }
+
+        .info-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .info-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 15px;
+        }
+
+        .info-list strong {
+            color: var(--blue);
+            width: 130px;
+            display: inline-block;
+        }
+
+        /* ==================================================
+           7. CONTENT - CHUYÊN NGÀNH
+        ================================================== */
+        .major-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .major-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .major-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .major-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .major-body {
+            padding: 20px;
+        }
+
+        .major-tag {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--orange);
+            text-transform: uppercase;
+        }
+
+        .major-body h3 {
+            font-size: 20px;
+            color: var(--blue);
+            margin: 8px 0;
+        }
+
+        .major-body p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* ==================================================
+           8. CONTENT - TIẾN ĐỘ ĐÀO TẠO
+        ================================================== */
+        .process-banner {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            position: relative;
+        }
+
+        .step-card {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .step-num {
+            width: 50px;
+            height: 50px;
+            background: var(--blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 auto 15px auto;
+        }
+
+        .step-card h3 {
+            color: var(--orange);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* ==================================================
+           9. FOOTER
+        ================================================== */
+        .footer {
+            background: var(--blue-dark);
+            color: white;
+            margin-top: 60px;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 20px 30px 20px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .footer h4 {
+            color: #ff9a5b;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .footer p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ==================================================
+           10. RESPONSIVE DESIGN
+        ================================================== */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ĐIỀU KHIỂN ĐIỀU HƯỚNG TRANG -->
+    <input type="radio" name="page" id="page-home" checked>
+    <input type="radio" name="page" id="page-major">
+    <input type="radio" name="page" id="page-process">
+
+    <!-- ĐIỀU KHIỂN NÚT "KIỂM TRA THÔNG TIN" -->
+    <input type="checkbox" id="check-info-toggle">
+
+    <!-- ĐIỀU KHIỂN TAB DỰA TRÊN BUTTON GROUP -->
+    <input type="radio" name="info-tab" id="tab-1" checked>
+    <input type="radio" name="info-tab" id="tab-2">
+    <input type="radio" name="info-tab" id="tab-3">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-box">FPT</div>
+                <div class="logo-text">
+                    <strong>Polytechnic</strong>
+                    <span>Thực học - Thực nghiệp</span>
+                </div>
+            </a>
+            <nav class="menu">
+                <label for="page-home">🏠 Trang Chủ</label>
+                <label for="page-major">🎓 Chương Trình</label>
+                <label for="page-process">📞 Liên Hệ</label>
+            </nav>
+        </div>
+    </header>
+
+    <!-- BANNER HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🎓 CỔNG THÔNG TIN SINH VIÊN</div>
+            <h1>Thực Học <span>- Thực Nghiệp</span></h1>
+            <p>Nơi giới thiệu thông tin sinh viên, chuyên ngành đào tạo và hành trình học tập tại FPT Polytechnic.</p>
+            
+            <!-- Nút bấm Kiểm tra thông tin -->
+            <label for="check-info-toggle" class="toggle-btn-main">
+                🔍 Kiểm Tra Thông Tin
+            </label>
+        </div>
+    </section>
+
+    <!-- KHU VỰC CHỨA CÁC NÚT BẤM VÀ NỘI DUNG HIỆN RA -->
+    <div class="info-wrapper">
+        
+        <!-- Nhóm 3 nút bấm theo mẫu thiết kế -->
+        <div class="button-group">
+            <label for="tab-1" class="btn" onclick="showme1()">👨‍🎓 Tôi Là Ai</label>
+            <label for="tab-2" class="btn" onclick="showme2()">💻 Chuyên Ngành</label>
+            <label for="tab-3" class="btn" onclick="showme3()">📈 Đào Tạo</label>
+        </div>
+
+        <main class="container">
+            
+            <!-- NỘI DUNG 1: TÔI LÀ AI -->
+            <section id="content-1" class="tab-content">
+                
+            </section>
+
+            <!-- NỘI DUNG 2: CHUYÊN NGÀNH -->
+            <section id="content-2" class="tab-content">
+                
+            </section>
+
+            <!-- NỘI DUNG 3: ĐÀO TẠO -->
+            <section id="content-3" class="tab-content">
+                
+            </section>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div>
+                <div class="footer-logo">FPT Polytechnic</div>
+                <p>Thực học - Thực nghiệp</p>
+                <p>Cổng thông tin giới thiệu hồ sơ cá nhân và tiến trình học tập của sinh viên.</p>
+            </div>
+            <div>
+                <h4>Danh Mục</h4>
+                <p>🎓 Hồ sơ sinh viên</p>
+                <p>💻 Chuyên ngành đào tạo</p>
+                <p>📈 Tiến độ học tập</p>
+            </div>
+            <div>
+                <h4>Liên Hệ</h4>
+                <p>📧 Email: student@fpt.edu.vn</p>
+                <p>☎ Điện thoại: 0123 456 789</p>
+                <p>📍 Địa điểm: TP. Hồ Chí Minh</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 FPT Polytechnic. Thiết kế bài tập bởi Sinh viên.
+        </div>
+    </footer>
+    <script src="Bai1a.js"></script>
+</body>
+</html>

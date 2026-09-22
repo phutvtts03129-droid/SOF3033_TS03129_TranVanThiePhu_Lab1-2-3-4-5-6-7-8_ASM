@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiển thị thông tin với JS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      padding: 30px;
+      text-align: center;
+    }
+
+    /* Trang trí nút bấm */
+    .btn-show {
+      background-color: #f26f21; /* Màu cam FPT */
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(242, 111, 33, 0.3);
+    }
+
+    .btn-show:hover {
+      background-color: #d95e14;
+      transform: translateY(-2px);
+    }
+
+    /* Khung hiển thị thông tin bên dưới */
+    #showme {
+      margin-top: 20px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .info-card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #f26f21;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      text-align: left;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body> <div id="showme"></div>
+  <button class="btn-show" onclick="showme()">Xem Thông Tin</button>
+ 
+   <button class="btn-show" onclick="showme2()">Xem Thông Tin 2</button>
+      <button class="btn-show" onclick="showme3()">Xem Thông Tin 3</button>
+     <script src="funson.js"></script>
+</body>
+</html>

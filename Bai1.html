@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - Thông Tin Cá Nhân</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        /* Vùng chứa các nút bấm */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background-color: #e0e6ed;
+            color: #34495e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .btn:hover {
+            background-color: #3498db;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Khối hiển thị nội dung do JS đổ vào */
+        .content-container {
+            background-color: #fafbfc;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 120px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        /* Hiệu ứng xuất hiện mượt mà cho nội dung */
+        #content-area {
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Trang Chủ Cá Nhân</h1>
+
+        <!-- 3 Nút bấm gọi hàm JS trực tiếp -->
+        <div class="button-group">
+            <button class="btn" onclick="showme()">Tôi Là Ai</button>
+            <button class="btn" onclick="showme1()">Chuyên Ngành</button>
+            <button class="btn" onclick="showme2()">Đào Tạo</button>
+        </div>
+
+        <!-- Khối chứa nội dung duy nhất nhận dữ liệu từ JS -->
+        <div class="content-container">
+            <div id="content-area"></div>
+        </div>
+    </div>
+
+    <!-- Nhúng file JS của bạn -->
+    <script src="Bai1a.js"></script>
+</body>
+</html>

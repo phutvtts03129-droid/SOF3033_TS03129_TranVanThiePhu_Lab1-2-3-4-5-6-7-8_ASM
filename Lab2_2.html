@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mô phỏng Casio fx-580VN X</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700;800&display=swap');
+
+    .lcd-screen {
+      font-family: 'Share Tech Mono', monospace;
+      background-color: #c3cbbf;
+      box-shadow: inset 0 3px 6px rgba(0,0,0,0.4);
+    }
+
+    .key-shadow {
+      box-shadow: 0 4px 0 #1b1e23, 0 5px 8px rgba(0,0,0,0.5);
+      transition: all 0.05s ease;
+    }
+    .key-shadow:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #1b1e23, 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .key-silver {
+      background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+      box-shadow: 0 3px 0 #94a3b8, 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .key-silver:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #94a3b8;
+    }
+
+    .key-blue {
+      background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+      box-shadow: 0 4px 0 #1e40af, 0 5px 8px rgba(0,0,0,0.4);
+    }
+    .key-blue:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #1e40af;
+    }
+
+    .d-pad-btn {
+      background: linear-gradient(145deg, #334155, #1e293b);
+      box-shadow: 0 3px 5px rgba(0,0,0,0.5);
+    }
+    .d-pad-btn:active {
+      background: #0f172a;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 4px;
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #889282;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-2 sm:p-4 select-none">
+
+  <!-- Vỏ máy tính -->
+  <div class="w-full max-w-[420px] bg-slate-800 rounded-[36px] p-4 sm:p-6 border-4 border-slate-700 shadow-2xl relative flex flex-col justify-between text-white">
+    
+    <!-- BRANDING & LOGO -->
+    <div class="flex justify-between items-start mb-2 px-1">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="font-extrabold text-xl tracking-wider text-slate-100">CASIO</span>
+          <span class="text-[10px] bg-amber-500 text-black font-bold px-1.5 py-0.5 rounded tracking-tighter">BITEX</span>
+        </div>
+        <div class="text-[10px] text-slate-400 font-semibold tracking-widest mt-0.5">CLASSWIZ</div>
+      </div>
+      <div class="text-right">
+        <div class="text-xs font-bold text-slate-300 tracking-wider">fx-580VN X</div>
+        <div class="text-[9px] text-slate-500 italic">NATURAL-V.P.A.M.</div>
+      </div>
+    </div>
+
+    <!-- MÀN HÌNH LCD -->
+    <div class="lcd-screen text-slate-900 rounded-xl p-3 mb-4 h-36 flex flex-col justify-between border-2 border-slate-600 relative overflow-hidden">
+      <!-- Dòng trạng thái (Indication Bar) -->
+      <div class="flex justify-between items-center text-[10px] font-bold text-slate-700 h-4 border-b border-slate-400/50 pb-1">
+        <div class="flex space-x-2">
+          <span id="shift-indicator" class="opacity-0 transition-opacity bg-slate-800 text-slate-200 px-1 rounded text-[8px]">S</span>
+          <span id="alpha-indicator" class="opacity-0 transition-opacity bg-pink-700 text-white px-1 rounded text-[8px]">A</span>
+          <span id="math-mode" class="text-[9px]">Math</span>
+        </div>
+        <div class="flex space-x-2">
+          <span id="angle-unit" class="font-black">D</span>
+          <span id="fix-indicator" class="hidden">FIX</span>
+        </div>
+      </div>
+
+      <!-- Dòng nhập biểu thức -->
+      <div id="expression-display" class="text-right text-lg sm:text-xl font-mono tracking-wider overflow-x-auto whitespace-nowrap custom-scrollbar py-1 my-auto text-slate-900">
+        0
+      </div>
+
+      <!-- Dòng kết quả -->
+      <div id="result-display" class="text-right text-2xl sm:text-3xl font-bold font-mono tracking-tight overflow-x-auto whitespace-nowrap custom-scrollbar h-9 flex items-center justify-end text-slate-950">
+        0
+      </div>
+    </div>
+
+    <!-- CỤM PHÍM ĐIỀU HƯỚNG & HỆ THỐNG -->
+    <div class="grid grid-cols-5 gap-2 mb-3 items-center">
+      <!-- SHIFT -->
+      <button onclick="toggleShift()" class="flex flex-col items-center justify-center h-8 rounded-lg key-silver text-amber-700 font-bold text-xs">
+        <span class="text-[9px] text-amber-600 block -mb-1">SOLVE</span>
+        SHIFT
+      </button>
+
+      <!-- ALPHA -->
+      <button onclick="toggleAlpha()" class="flex flex-col items-center justify-center h-8 rounded-lg key-silver text-pink-700 font-bold text-xs">
+        <span class="text-[9px] text-pink-600 block -mb-1">=</span>
+        ALPHA
+      </button>
+
+      <!-- D-PAD (Nút điều hướng tròn ở giữa) -->
+      <div class="col-span-1 flex justify-center items-center">
+        <div class="w-16 h-16 bg-slate-700 rounded-full p-1 flex flex-col justify-between items-center border border-slate-600 shadow-inner relative">
+          <button onclick="moveCursor('up')" class="d-pad-btn w-6 h-4 rounded-t-full text-[10px] text-slate-300 flex items-center justify-center"><i class="fa-solid fa-caret-up"></i></button>
+          <div class="flex justify-between w-full px-0.5">
+            <button onclick="moveCursor('left')" class="d-pad-btn w-4 h-6 rounded-l-full text-[10px] text-slate-300 flex items-center justify-center"><i class="fa-solid fa-caret-left"></i></button>
+            <button onclick="moveCursor('right')" class="d-pad-btn w-4 h-6 rounded-r-full text-[10px] text-slate-300 flex items-center justify-center"><i class="fa-solid fa-caret-right"></i></button>
+          </div>
+          <button onclick="moveCursor('down')" class="d-pad-btn w-6 h-4 rounded-b-full text-[10px] text-slate-300 flex items-center justify-center"><i class="fa-solid fa-caret-down"></i></button>
+        </div>
+      </div>
+
+      <!-- MENU / SETUP -->
+      <button onclick="pressMenu()" class="flex flex-col items-center justify-center h-8 rounded-lg key-silver text-slate-800 font-bold text-[10px]">
+        <span class="text-[8px] text-amber-600 block -mb-1">SETUP</span>
+        MENU
+      </button>
+
+      <!-- ON -->
+      <button onclick="resetCalculator()" class="flex flex-col items-center justify-center h-8 rounded-lg key-silver text-slate-800 font-bold text-[10px]">
+        ON
+      </button>
+    </div>
+
+    <!-- CỤM PHÍM KHOA HỌC -->
+    <div class="grid grid-cols-6 gap-1.5 mb-3 text-xs">
+      <button onclick="appendFunc('OPTN')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[10px]">OPTN</button>
+      <button onclick="appendFunc('CALC')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[10px]">CALC</button>
+      <button onclick="appendInput('/')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-bold text-sm">x/y</button>
+      <button onclick="appendFunc('sqrt')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold">√x</button>
+      <button onclick="appendOp('^2')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold">x²</button>
+      <button onclick="appendOp('^')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold">xⁿ</button>
+
+      <button onclick="appendFunc('log')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[11px]">log</button>
+      <button onclick="appendFunc('ln')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[11px]">ln</button>
+      <button onclick="appendInput('(-)')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[10px]">(-)</button>
+      <button onclick="appendFunc('fact')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[10px]">x!</button>
+      <button onclick="appendFunc('sin')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[11px]">sin</button>
+      <button onclick="appendFunc('cos')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[11px]">cos</button>
+
+      <button onclick="appendFunc('tan')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[11px]">tan</button>
+      <button onclick="appendInput('STO')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[10px]">STO</button>
+      <button onclick="toggleSD()" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-amber-400 font-bold text-[11px]">S⇔D</button>
+      <button onclick="appendInput('(')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-bold">(</button>
+      <button onclick="appendInput(')')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-bold">)</button>
+      <button onclick="appendInput('M+')" class="bg-slate-700 hover:bg-slate-600 h-7 rounded key-shadow text-slate-200 font-semibold text-[11px]">M+</button>
+    </div>
+
+    <!-- BÀN PHÍM SỐ VÀ PHÉP TÍNH -->
+    <div class="grid grid-cols-5 gap-2 text-base">
+      <!-- Hàng 1 -->
+      <button onclick="appendInput('7')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">7</button>
+      <button onclick="appendInput('8')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">8</button>
+      <button onclick="appendInput('9')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">9</button>
+      <button onclick="deleteLast()" class="key-blue text-white font-bold h-10 rounded-lg">DEL</button>
+      <button onclick="clearAll()" class="key-blue text-white font-bold h-10 rounded-lg">AC</button>
+
+      <!-- Hàng 2 -->
+      <button onclick="appendInput('4')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">4</button>
+      <button onclick="appendInput('5')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">5</button>
+      <button onclick="appendInput('6')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">6</button>
+      <button onclick="appendOp('*')" class="bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold h-10 rounded-lg key-shadow text-xl">×</button>
+      <button onclick="appendOp('/')" class="bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold h-10 rounded-lg key-shadow text-xl">÷</button>
+
+      <!-- Hàng 3 -->
+      <button onclick="appendInput('1')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">1</button>
+      <button onclick="appendInput('2')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">2</button>
+      <button onclick="appendInput('3')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">3</button>
+      <button onclick="appendOp('+')" class="bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold h-10 rounded-lg key-shadow text-xl">+</button>
+      <button onclick="appendOp('-')" class="bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold h-10 rounded-lg key-shadow text-xl">−</button>
+
+      <!-- Hàng 4 -->
+      <button onclick="appendInput('0')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">0</button>
+      <button onclick="appendInput('.')" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-bold h-10 rounded-lg key-shadow">.</button>
+      <button onclick="appendConstant('x10')" class="bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold h-10 rounded-lg key-shadow text-xs">x10ˣ</button>
+      <button onclick="appendInput('Ans')" class="bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold h-10 rounded-lg key-shadow text-xs">Ans</button>
+      <button onclick="calculateResult()" class="bg-slate-200 hover:bg-slate-100 text-slate-900 font-extrabold h-10 rounded-lg key-shadow text-xl">=</button>
+    </div>
+
+  </div>
+
+  <script>
+    let expression = "";
+    let rawExpression = "";
+    let lastAns = "0";
+    let isShift = false;
+    let isAlpha = false;
+    let currentResultNum = null;
+    let isFractionDisplay = false;
+
+    const exprEl = document.getElementById("expression-display");
+    const resultEl = document.getElementById("result-display");
+    const shiftInd = document.getElementById("shift-indicator");
+    const alphaInd = document.getElementById("alpha-indicator");
+
+    function updateDisplay() {
+      exprEl.innerText = expression || "0";
+      shiftInd.style.opacity = isShift ? "1" : "0";
+      alphaInd.style.opacity = isAlpha ? "1" : "0";
+    }
+
+    function toggleShift() {
+      isShift = !isShift;
+      if (isShift) isAlpha = false;
+      updateDisplay();
+    }
+
+    function toggleAlpha() {
+      isAlpha = !isAlpha;
+      if (isAlpha) isShift = false;
+      updateDisplay();
+    }
+
+    function appendInput(val) {
+      if (val === '(-)') {
+        expression += "-";
+        rawExpression += "-";
+      } else {
+        expression += val;
+        rawExpression += val;
+      }
+      updateDisplay();
+    }
+
+    function appendOp(op) {
+      if (op === '^2') {
+        expression += "²";
+        rawExpression += "**2";
+      } else if (op === '^') {
+        expression += "^(";
+        rawExpression += "**(";
+      } else {
+        expression += op;
+        rawExpression += op;
+      }
+      updateDisplay();
+    }
+
+    function appendFunc(fn) {
+      if (isShift) {
+        if (fn === 'sqrt') {
+          expression += "∛(";
+          rawExpression += "Math.cbrt(";
+        } else if (fn === 'sin') {
+          expression += "sin⁻¹(";
+          rawExpression += "Math.asin(";
+        } else if (fn === 'cos') {
+          expression += "cos⁻¹(";
+          rawExpression += "Math.acos(";
+        } else if (fn === 'tan') {
+          expression += "tan⁻¹(";
+          rawExpression += "Math.atan(";
+        }
+        toggleShift();
+      } else if (isAlpha) {
+        if (fn === 'sin') { expression += "A"; rawExpression += "A"; }
+        else if (fn === 'cos') { expression += "B"; rawExpression += "B"; }
+        else if (fn === 'tan') { expression += "C"; rawExpression += "C"; }
+        toggleAlpha();
+      } else {
+        if (fn === 'sqrt') {
+          expression += "√(";
+          rawExpression += "Math.sqrt(";
+        } else if (fn === 'sin') {
+          expression += "sin(";
+          rawExpression += "Math.sin(";
+        } else if (fn === 'cos') {
+          expression += "cos(";
+          rawExpression += "Math.cos(";
+        } else if (fn === 'tan') {
+          expression += "tan(";
+          rawExpression += "Math.tan(";
+        } else if (fn === 'log') {
+          expression += "log(";
+          rawExpression += "Math.log10(";
+        } else if (fn === 'ln') {
+          expression += "ln(";
+          rawExpression += "Math.log(";
+        } else if (fn === 'fact') {
+          expression += "!";
+          rawExpression += "!";
+        }
+      }
+      updateDisplay();
+    }
+
+    function appendConstant(c) {
+      if (c === 'x10') {
+        expression += "×10^";
+        rawExpression += "*10**";
+      }
+      updateDisplay();
+    }
+
+    function clearAll() {
+      expression = "";
+      rawExpression = "";
+      resultEl.innerText = "0";
+      currentResultNum = null;
+      updateDisplay();
+    }
+
+    function deleteLast() {
+      expression = expression.slice(0, -1);
+      rawExpression = rawExpression.slice(0, -1);
+      updateDisplay();
+    }
+
+    function resetCalculator() {
+      clearAll();
+      lastAns = "0";
+      isShift = false;
+      isAlpha = false;
+      updateDisplay();
+    }
+
+    function factorial(n) {
+      if (n < 0) return NaN;
+      if (n === 0 || n === 1) return 1;
+      let res = 1;
+      for (let i = 2; i <= n; i++) res *= i;
+      return res;
+    }
+
+    function calculateResult() {
+      try {
+        let evalStr = rawExpression
+          .replace(/Ans/g, lastAns)
+          .replace(/(\d+)!/g, (match, p1) => `factorial(${p1})`);
+
+        let res = eval(evalStr);
+        if (typeof res === 'number') {
+          currentResultNum = res;
+          lastAns = res.toString();
+          isFractionDisplay = false;
+          
+          if (Number.isInteger(res)) {
+            resultEl.innerText = res.toString();
+          } else {
+            resultEl.innerText = parseFloat(res.toFixed(8)).toString();
+          }
+        }
+      } catch (err) {
+        resultEl.innerText = "Syntax ERROR";
+      }
+    }
+
+    function toggleSD() {
+      if (currentResultNum === null) return;
+
+      if (!isFractionDisplay) {
+        // Chuyển sang dạng phân số đơn giản
+        const frac = toFraction(currentResultNum);
+        if (frac) {
+          resultEl.innerText = `${frac[0]}/${frac[1]}`;
+          isFractionDisplay = true;
+        }
+      } else {
+        resultEl.innerText = parseFloat(currentResultNum.toFixed(8)).toString();
+        isFractionDisplay = false;
+      }
+    }
+
+    function toFraction(val) {
+      if (Number.isInteger(val)) return null;
+      let tolerance = 1.0E-6;
+      let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
+      let b = val;
+      do {
+        let a = Math.floor(b);
+        let aux = h1;
+        h1 = a * h1 + h2;
+        h2 = aux;
+        aux = k1;
+        k1 = a * k1 + k2;
+        k2 = aux;
+        b = 1 / (b - a);
+      } while (Math.abs(val - h1 / k1) > val * tolerance);
+
+      return [h1, k1];
+    }
+
+    // Xử lý sự kiện từ bàn phím máy tính thật
+    document.addEventListener('keydown', (e) => {
+      if (e.key >= '0' && e.key <= '9') appendInput(e.key);
+      else if (e.key === '+') appendOp('+');
+      else if (e.key === '-') appendOp('-');
+      else if (e.key === '*') appendOp('*');
+      else if (e.key === '/') appendOp('/');
+      else if (e.key === '.') appendInput('.');
+      else if (e.key === '(' || e.key === ')') appendInput(e.key);
+      else if (e.key === 'Enter') calculateResult();
+      else if (e.key === 'Backspace') deleteLast();
+      else if (e.key === 'Escape') clearAll();
+    });
+  </script>
+</body>
+</html>
