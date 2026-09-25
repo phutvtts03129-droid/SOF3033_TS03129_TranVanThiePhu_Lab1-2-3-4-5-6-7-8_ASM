@@ -1,0 +1,1377 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Moon Coffee</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f8f3ed;
+            color: #3b2418;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            width: 100%;
+            background: #2b1a12;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            color: #f4c27a;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #f4c27a;
+        }
+
+        .order-btn {
+            background: #c8874a;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .order-btn:hover {
+            background: #e0a15f;
+            transform: translateY(-2px);
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 650px;
+            padding: 80px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+
+            background:
+                linear-gradient(
+                    rgba(43, 26, 18, 0.82),
+                    rgba(43, 26, 18, 0.82)
+                ),
+                url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            color: white;
+        }
+
+        .hero-content small {
+            color: #f4c27a;
+            font-size: 18px;
+            letter-spacing: 3px;
+        }
+
+        .hero-content h1 {
+            font-size: 65px;
+            line-height: 1.1;
+            margin: 20px 0;
+        }
+
+        .hero-content h1 span {
+            color: #f4c27a;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #e4d8ce;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-main {
+            background: #c8874a;
+            color: white;
+            padding: 14px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover {
+            background: #e0a15f;
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 2px solid #f4c27a;
+            color: #f4c27a;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+
+        .btn-outline:hover {
+            background: #f4c27a;
+            color: #2b1a12;
+        }
+
+        /* ================= SECTION TITLE ================= */
+
+        .section {
+            padding: 80px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title small {
+            color: #b46b35;
+            font-size: 15px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .section-title h2 {
+            font-size: 40px;
+            margin-top: 10px;
+            color: #3b2418;
+        }
+
+        .section-title p {
+            margin-top: 12px;
+            color: #806b5e;
+        }
+
+        /* ================= PRODUCTS ================= */
+
+       .products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(55, 31, 18, 0.10);
+    border: 1px solid rgba(120, 75, 40, 0.08);
+    transition: all 0.35s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 40px rgba(55, 31, 18, 0.18);
+}
+
+/* Hình */
+
+.card-img {
+    height: 230px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.35),
+        transparent 45%
+    );
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.card:hover .card-img::after {
+    opacity: 1;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .card-img img {
+    transform: scale(1.1);
+}
+
+/* Badge */
+
+.badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+
+    background: #c8874a;
+    color: white;
+
+    padding: 7px 13px;
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Nội dung */
+
+.card-content {
+    padding: 22px;
+}
+
+.card-category {
+    color: #b47745;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 7px;
+}
+
+.card-content h3 {
+    color: #332017;
+    font-size: 21px;
+    margin-bottom: 9px;
+}
+
+.card-content p {
+    color: #806d60;
+    line-height: 1.6;
+    font-size: 14px;
+
+    min-height: 45px;
+}
+
+/* Bottom */
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 20px;
+    padding-top: 16px;
+
+    border-top: 1px solid #eee4dc;
+}
+
+.price {
+    color: #b96f32;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.buy {
+    background: #2b1a12;
+    color: white;
+
+    padding: 10px 17px;
+
+    border-radius: 25px;
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.buy:hover {
+    background: #c8874a;
+    transform: translateY(-2px);
+}
+        /* ================= ABOUT ================= */
+
+        .about {
+            background: #2b1a12;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .about-content small {
+            color: #f4c27a;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .about-content h2 {
+            font-size: 42px;
+            margin: 15px 0 20px;
+        }
+
+        .about-content p {
+            color: #d8cbc0;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.08);
+            padding: 18px;
+            border-radius: 12px;
+        }
+
+        .feature strong {
+            color: #f4c27a;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .feature span {
+            font-size: 14px;
+            color: #d8cbc0;
+        }
+
+        /* ================= SPECIAL ================= */
+
+        .special {
+            background: #efe3d5;
+        }
+
+        .special-box {
+            background: #3b2418;
+            border-radius: 25px;
+            padding: 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            color: white;
+        }
+
+        .special-box h2 {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .special-box p {
+            color: #dfd1c5;
+            line-height: 1.6;
+        }
+
+        .special-price {
+            font-size: 38px;
+            color: #f4c27a;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* ================= SPACE ================= */
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 220px 220px;
+            gap: 15px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .gallery img:first-child {
+            grid-row: span 2;
+        }
+
+        /* ================= CONTACT ================= */
+
+        .contact {
+            background: #2b1a12;
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .contact p {
+            color: #d8cbc0;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.08);
+            padding: 20px 30px;
+            border-radius: 12px;
+            min-width: 180px;
+        }
+
+        .contact-item strong {
+            color: #f4c27a;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ================= FOOTER ================= */
+
+       .footer {
+    background: #21130d;
+    color: #d8cbc1;
+    padding: 70px 8% 0;
+}
+
+/* Nội dung chính */
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 50px;
+    padding-bottom: 55px;
+}
+
+/* Logo */
+
+.footer-logo {
+    color: #f4c27a;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.footer-logo span {
+    color: white;
+}
+
+.footer-box > p {
+    color: #a9998e;
+    line-height: 1.7;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Tiêu đề */
+
+.footer-box h3 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 22px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-box h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 35px;
+    height: 2px;
+
+    background: #c8874a;
+}
+
+/* Link */
+
+.footer-box a {
+    display: block;
+
+    color: #a9998e;
+    text-decoration: none;
+
+    margin-bottom: 13px;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+.footer-box a:hover {
+    color: #f4c27a;
+    padding-left: 5px;
+}
+
+/* Social */
+
+.social {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.social a {
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid #60483a;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #f4c27a;
+
+    transition: 0.3s;
+}
+
+.social a:hover {
+    background: #c8874a;
+    border-color: #c8874a;
+    color: white;
+
+    transform: translateY(-4px);
+}
+
+/* Footer bottom */
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+
+    padding: 22px 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.footer-bottom p {
+    color: #806f64;
+    font-size: 13px;
+}
+
+.footer-bottom span {
+    color: #f4c27a;
+}
+
+.footer-bottom div {
+    display: flex;
+    gap: 25px;
+}
+
+.footer-bottom a {
+    color: #806f64;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.footer-bottom a:hover {
+    color: #f4c27a;
+}
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            nav {
+                display: none;
+            }
+
+            .hero {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .hero-content h1 {
+                font-size: 48px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+                .products {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+
+            .special-box {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px 5%;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .order-btn {
+                padding: 9px 15px;
+                font-size: 13px;
+            }
+
+            .hero {
+                min-height: 580px;
+                padding: 60px 5%;
+            }
+
+            .hero-content h1 {
+                font-size: 40px;
+            }
+
+            .hero-content p {
+                font-size: 15px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .section {
+                padding: 60px 5%;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+
+           .products {
+        grid-template-columns: 1fr;
+    }
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 220px);
+            }
+
+            .gallery img:first-child {
+                grid-row: auto;
+            }
+
+            .special-box {
+                padding: 30px 20px;
+            }
+
+            .special-box h2 {
+                font-size: 28px;
+            }
+             .footer-container {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-bottom div {
+        flex-direction: column;
+        gap: 10px;
+    }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="logo">
+            Moon<span>Coffee</span>
+        </div>
+
+        <nav>
+            <a href="#home">Trang chủ</a>
+            <a href="#menu">Menu</a>
+            <a href="#about">Giới thiệu</a>
+            <a href="#space">Không gian</a>
+            <a href="#contact">Liên hệ</a>
+        </nav>
+
+        <a href="#menu" class="order-btn">
+            Đặt món ☕
+        </a>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <small>WELCOME TO MOON COFFEE</small>
+
+            <h1>
+                Một tách cà phê
+                <span>cho một ngày tuyệt vời.</span>
+            </h1>
+
+            <p>
+                Thưởng thức những ly cà phê được pha chế từ
+                những hạt cà phê chất lượng, trong một không gian
+                ấm áp và thư giãn.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#menu" class="btn-main">
+                    Xem menu
+                </a>
+
+                <a href="#about" class="btn-outline">
+                    Khám phá quán
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MENU ================= -->
+
+    <section class="section" id="menu">
+
+        <div class="section-title">
+
+            <small>OUR MENU</small>
+
+            <h2>Menu nổi bật</h2>
+
+            <p>
+                Những thức uống được yêu thích nhất tại Moon Coffee
+            </p>
+
+        </div>
+
+
+        <div class="products">
+
+            <!-- Product 1 -->
+
+            <div class="card">
+
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80"
+                         alt="Espresso">
+                </div>
+
+                <div class="card-content">
+
+                    <h3>Espresso</h3>
+
+                    <p>
+                        Hương vị cà phê đậm đà, mạnh mẽ
+                        dành cho những người yêu cà phê.
+                    </p>
+
+                    <div class="card-bottom">
+
+                        <span class="price">
+                            35.000đ
+                        </span>
+
+                        <a href="#" class="buy">
+                            Đặt món
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 2 -->
+
+            <div class="card">
+
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80"
+                         alt="Latte">
+                </div>
+
+                <div class="card-content">
+
+                    <h3>Latte</h3>
+
+                    <p>
+                        Espresso kết hợp cùng sữa tươi
+                        tạo nên vị béo nhẹ và thơm.
+                    </p>
+
+                    <div class="card-bottom">
+
+                        <span class="price">
+                            45.000đ
+                        </span>
+
+                        <a href="#" class="buy">
+                            Đặt món
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 3 -->
+
+            <div class="card">
+
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=800&q=80"
+                         alt="Cappuccino">
+                </div>
+
+                <div class="card-content">
+
+                    <h3>Cappuccino</h3>
+
+                    <p>
+                        Lớp bọt sữa mềm mịn kết hợp
+                        với cà phê Espresso thơm nồng.
+                    </p>
+
+                    <div class="card-bottom">
+
+                        <span class="price">
+                            42.000đ
+                        </span>
+
+                        <a href="#" class="buy">
+                            Đặt món
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 4 -->
+
+            <div class="card">
+
+    <div class="card-img">
+
+        <span class="badge">
+            BEST SELLER
+        </span>
+
+        <img
+            src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80"
+            alt="Espresso"
+        >
+
+    </div>
+
+    <div class="card-content">
+
+        <div class="card-category">
+            Coffee
+        </div>
+
+        <h3>Espresso</h3>
+
+        <p>
+            Hương vị cà phê đậm đà, mạnh mẽ dành cho
+            những người yêu cà phê nguyên chất.
+        </p>
+
+        <div class="card-bottom">
+
+            <span class="price">
+                35.000đ
+            </span>
+
+            <a href="#" class="buy">
+                Đặt món ☕
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+            <!-- Product 5 -->
+
+            <div class="card">
+
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=800&q=80"
+                         alt="Cold Brew">
+                </div>
+
+                <div class="card-content">
+
+                    <h3>Cold Brew</h3>
+
+                    <p>
+                        Cà phê ủ lạnh mang hương vị
+                        nhẹ nhàng và sảng khoái.
+                    </p>
+
+                    <div class="card-bottom">
+
+                        <span class="price">
+                            48.000đ
+                        </span>
+
+                        <a href="#" class="buy">
+                            Đặt món
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 6 -->
+
+            <div class="card">
+
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=800&q=80"
+                     alt="Iced Coffee">
+                </div>
+
+                <div class="card-content">
+
+                    <h3>Cà phê sữa đá</h3>
+
+                    <p>
+                        Hương vị cà phê Việt Nam truyền thống
+                        cùng sữa đặc thơm béo.
+                    </p>
+
+                    <div class="card-bottom">
+
+                        <span class="price">
+                            32.000đ
+                        </span>
+
+                        <a href="#" class="buy">
+                            Đặt món
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section class="section about" id="about">
+
+        <div class="about-image">
+
+            <img
+                src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=80"
+                alt="Không gian Moon Coffee">
+
+        </div>
+
+
+        <div class="about-content">
+
+            <small>ABOUT US</small>
+
+            <h2>Câu chuyện của Moon Coffee</h2>
+
+            <p>
+                Moon Coffee được tạo ra với mong muốn mang đến
+                một nơi mọi người có thể thưởng thức cà phê ngon
+                và dành thời gian thư giãn sau những giờ học tập,
+                làm việc.
+            </p>
+
+            <p>
+                Chúng tôi lựa chọn những hạt cà phê chất lượng
+                và luôn chú trọng đến từng ly cà phê được phục vụ.
+            </p>
+
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <strong>☕ Cà phê chất lượng</strong>
+
+                    <span>
+                        Hạt cà phê được lựa chọn kỹ càng.
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>🌿 Không gian xanh</strong>
+
+                    <span>
+                        Không gian nhẹ nhàng và thư giãn.
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>❤️ Phục vụ tận tâm</strong>
+
+                    <span>
+                        Luôn đặt trải nghiệm khách hàng lên đầu.
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>✨ Hương vị riêng</strong>
+
+                    <span>
+                        Công thức pha chế đặc biệt.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SPECIAL ================= -->
+
+    <section class="section special">
+
+        <div class="special-box">
+
+            <div>
+
+                <h2>☕ Coffee Combo</h2>
+
+                <p>
+                    Một ly cà phê + một chiếc bánh ngọt
+                    cho buổi sáng tràn đầy năng lượng.
+                </p>
+
+            </div>
+
+            <div class="special-price">
+                59.000đ
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SPACE ================= -->
+
+    <section class="section" id="space">
+
+        <div class="section-title">
+
+            <small>OUR SPACE</small>
+
+            <h2>Không gian quán</h2>
+
+            <p>
+                Một nơi để học tập, làm việc và thư giãn.
+            </p>
+
+        </div>
+
+
+        <div class="gallery">
+
+            <img
+                src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1000&q=80"
+                alt="Không gian quán">
+
+            <img
+                src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=80"
+                alt="Coffee shop">
+
+            <img
+                src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80"
+                alt="Bàn cà phê">
+
+            <img
+                src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80"
+                alt="Không gian">
+
+            <img
+                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
+                alt="Coffee interior">
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CONTACT ================= -->
+
+    <section class="section contact" id="contact">
+
+        <h2>Ghé Moon Coffee nhé ☕</h2>
+
+        <p>
+            Một ly cà phê ngon đang chờ bạn.
+        </p>
+
+
+        <div class="contact-info">
+
+            <div class="contact-item">
+
+                <strong>📍 Địa chỉ</strong>
+
+                <span>
+                    Nguyễn Huệ, TP.HCM
+                </span>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <strong>📞 Điện thoại</strong>
+
+                <span>
+                    0909 123 456
+                </span>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <strong>⏰ Giờ mở cửa</strong>
+
+                <span>
+                    07:00 - 22:00
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+   <!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <!-- Cột 1 -->
+
+        <div class="footer-box">
+
+            <div class="footer-logo">
+                Moon<span>Coffee</span>
+            </div>
+
+            <p>
+                Nơi những hạt cà phê chất lượng được
+                biến thành những trải nghiệm đáng nhớ.
+            </p>
+
+            <div class="social">
+
+                <a href="#">f</a>
+                <a href="#">◎</a>
+                <a href="#">♪</a>
+                <a href="#">▶</a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Cột 2 -->
+
+        <div class="footer-box">
+
+            <h3>Khám phá</h3>
+
+            <a href="#home">Trang chủ</a>
+            <a href="#menu">Menu</a>
+            <a href="#about">Về chúng tôi</a>
+            <a href="#space">Không gian</a>
+
+        </div>
+
+
+        <!-- Cột 3 -->
+
+        <div class="footer-box">
+
+            <h3>Danh mục</h3>
+
+            <a href="#menu">Cà phê</a>
+            <a href="#menu">Trà</a>
+            <a href="#menu">Bánh ngọt</a>
+            <a href="#menu">Đồ uống lạnh</a>
+
+        </div>
+
+
+        <!-- Cột 4 -->
+
+        <div class="footer-box">
+
+            <h3>Liên hệ</h3>
+
+            <p>
+                📍 Nguyễn Huệ, TP.HCM
+            </p>
+
+            <p>
+                📞 0909 123 456
+            </p>
+
+            <p>
+                ✉️ hello@mooncoffee.vn
+            </p>
+
+            <p>
+                ⏰ 07:00 - 22:00
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer Bottom -->
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 <span>Moon Coffee</span>.
+            All Rights Reserved.
+        </p>
+
+        <div>
+            <a href="#">Chính sách bảo mật</a>
+            <a href="#">Điều khoản sử dụng</a>
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
+```

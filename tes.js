@@ -1,11 +1,22 @@
-// Vòng lặp cho các bảng từ 2 đến 9
-for (let j = 2; j <= 9; j++) {
-    console.log(`--- BẢNG CỬU CHƯƠNG ${j} ---`);
-    
-    // Vòng lặp nhân từ 1 đến 10
-    for (let i = 1; i <= 10; i++) {
-        console.log(`${j} x ${i} = ${j * i}`);
+console svv[
+    {
+        msv: " TS03129",
+        Ten: " ThienPhu",
+        Mon: [
+            { ma: "WEB10332", tenmon: "Cơ sở dữ liệu", diem: 8.5 },
+            { ma: "WEB10332", tenmon: "Cơ sở dữ liệu", diem: 8.5 } 
+        ]
     }
-    
-    console.log(""); // Dòng trống giữa các bảng
+];
+
+let html="";
+for(let i=0; i < svv.length; i++){
+html += "<h2>Mssv: "+svv[i].msv + "<\h2>";
 }
+
+for (i .. ){
+let sv=dssv[i];
+let html="";
+dssv[i].monhoc[0].diem
+}
+\\
